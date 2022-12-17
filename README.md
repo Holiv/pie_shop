@@ -1,0 +1,2 @@
+# Bettany Pie Shop
+#### Bettany Pie Shop is a education project to learn The Fundamentals of C# through a pratical approach. In this project topic as Syntax, Object-Oriented Programming, Tests, Working with Files and Handling Exceptions were covered.

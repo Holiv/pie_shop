@@ -27,7 +27,7 @@ namespace BettanyShopHRM
 
             string employeeType = Console.ReadLine();
             int intEmployeeType = Int32.Parse(employeeType);
-
+            
             if (intEmployeeType < 0 || intEmployeeType > 5)
             {
                 Console.WriteLine("Invalid employee type");
@@ -118,48 +118,79 @@ namespace BettanyShopHRM
         internal static void LoadEmployees(List<Employee> employees)
         {
             string path = $"{directory}{fileName}";
-            if (File.Exists(path))
+            try
             {
-                employees.Clear();
-
-                string[] employeesAsString = File.ReadAllLines(path);
-                for (int i = 0; i < employeesAsString.Length; i++)
+                if (File.Exists(path))
                 {
-                    string[] employeeSplit = employeesAsString[0].Split(";");
-                    string firstName = employeeSplit[0].Substring(employeeSplit[0].IndexOf(":") + 1);
-                    string lastName = employeeSplit[1].Substring(employeeSplit[1].IndexOf(":") + 1);
-                    string email = employeeSplit[2].Substring(employeeSplit[2].IndexOf(":") + 1);
-                    DateTime birthDay = DateTime.Parse(employeeSplit[3].Substring(employeeSplit[3].IndexOf(":") + 1));
-                    double hourlyRate = double.Parse(employeeSplit[4].Substring(employeeSplit[4].IndexOf(":") + 1));
-                    string employeeType = employeeSplit[5].Substring(employeeSplit[5].IndexOf(":") + 1);
+                    employees.Clear();
 
-                    Employee employee = null;
-
-                    switch (employeeType)
+                    string[] employeesAsString = File.ReadAllLines(path);
+                    for (int i = 0; i < employeesAsString.Length; i++)
                     {
-                        case "1":
-                            employee = new Employee(firstName, lastName, email, birthDay, hourlyRate);
-                            break;
-                        case "2":
-                            employee = new Manager(firstName, lastName, email, birthDay, hourlyRate);
-                            break;
-                        case "3":
-                            employee = new StoreManager(firstName, lastName, email, birthDay, hourlyRate);
-                            break;
-                        case "4":
-                            employee = new Researcher(firstName, lastName, email, birthDay, hourlyRate);
-                            break;
-                        case "5":
-                            employee = new JuniorResearcher(firstName, lastName, email, birthDay, hourlyRate);
-                            break;
+                        string[] employeeSplit = employeesAsString[0].Split(";");
+                        string firstName = employeeSplit[0].Substring(employeeSplit[0].IndexOf(":") + 1);
+                        string lastName = employeeSplit[1].Substring(employeeSplit[1].IndexOf(":") + 1);
+                        string email = employeeSplit[2].Substring(employeeSplit[2].IndexOf(":") + 1);
+                        DateTime birthDay = DateTime.Parse(employeeSplit[3].Substring(employeeSplit[3].IndexOf(":") + 1));
+                        double hourlyRate = double.Parse(employeeSplit[4].Substring(employeeSplit[4].IndexOf(":") + 1));
+                        string employeeType = employeeSplit[5].Substring(employeeSplit[5].IndexOf(":") + 1);
+
+                        Employee employee = null;
+
+                        switch (employeeType)
+                        {
+                            case "1":
+                                employee = new Employee(firstName, lastName, email, birthDay, hourlyRate);
+                                break;
+                            case "2":
+                                employee = new Manager(firstName, lastName, email, birthDay, hourlyRate);
+                                break;
+                            case "3":
+                                employee = new StoreManager(firstName, lastName, email, birthDay, hourlyRate);
+                                break;
+                            case "4":
+                                employee = new Researcher(firstName, lastName, email, birthDay, hourlyRate);
+                                break;
+                            case "5":
+                                employee = new JuniorResearcher(firstName, lastName, email, birthDay, hourlyRate);
+                                break;
+                        }
+
+                        employees.Add(employee);
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        //Console.WriteLine($"Loaded {employees.Count} employees!");
+                        //Console.ResetColor();
                     }
-
-                    employees.Add(employee);
-
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    //Console.WriteLine($"Loaded {employees.Count} employees!");
-                    Console.ResetColor();
                 }
+            }
+            catch (IndexOutOfRangeException iex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went wrong parsing the data, please check the file!");
+                Console.WriteLine(iex.Message);
+                Console.WriteLine(iex.StackTrace);
+                //Console.ResetColor();
+            }
+            catch (FileNotFoundException fnfex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The file could not be found!");
+                Console.WriteLine(fnfex.Message);
+                Console.WriteLine(fnfex.StackTrace);
+                //Console.ResetColor();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went wrong while loading the file");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                //Console.ResetColor();
+            }
+            finally
+            {
+                Console.ResetColor();
             }
 
         }

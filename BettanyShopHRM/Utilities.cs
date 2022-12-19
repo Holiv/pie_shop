@@ -201,6 +201,29 @@ namespace BettanyShopHRM
             return "0";
         }
 
+        internal static void LoadEmployeeById(List<Employee> employees)
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Enter the Employee ID you want to visualize: ");
+                Console.ResetColor();
+
+                int selectedId = int.Parse(Console.ReadLine());
+                Employee selectedEmployee = employees[selectedId];
+                selectedEmployee.DisplayEmployeeDetails();
+            }
+            catch (FormatException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("That's not the correct format to enter an ID \n");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.ResetColor();
+            }
+            
+        }
+
         //internal static string TypeOfEmployee(string employeeType)
         //{
         //    string formatedEmployeeType = employeeType.IndexOf(()

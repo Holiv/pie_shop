@@ -31,6 +31,7 @@ do
     Console.WriteLine("2: View all employees");
     Console.WriteLine("3: Save data");
     Console.WriteLine("4: Load data");
+    Console.WriteLine("5: Load specific employee");
     Console.WriteLine("9: Quit application");
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Your selection: ");
@@ -51,6 +52,9 @@ do
             break;
         case 4:
             Utilities.LoadEmployees(employees);
+            break;
+        case 5:
+            Utilities.LoadEmployeeById(employees);
             break;
         case 9: break;
     }
